@@ -359,8 +359,8 @@
     errMsg.style.display = 'none';
 
     const payload = {
-      data: {
-        "Timestamp": new Date().toISOString(),
+      data: [{
+        "Timestamp": new Date().toLocaleString(),
         "Q1: Role": answers['1'] || '',
         "Q2: Platforms": Array.isArray(answers['2']) ? answers['2'].join(', ') : (answers['2'] || ''),
         "Q3: Daily Time": answers['3'] || '',
@@ -368,21 +368,18 @@
         "Q5: Prefer Career": answers['5'] || '',
         "Q6: Use AI Tool": answers['6'] || '',
         "Q7: Feature": answers['7'] || ''
-      }
+      }]
     };
 
     try {
-      const res = await fetch(SHEET_URL, {
+      await fetch(SHEET_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload)
       });
-      if (res.ok) {
-        document.getElementById('survey-form').style.display = 'none';
-        document.getElementById('thank-you').style.display = 'block';
-      } else {
-        throw new Error('Failed');
-      }
+      document.getElementById('survey-form').style.display = 'none';
+      document.getElementById('thank-you').style.display = 'block';
     } catch (err) {
       btn.textContent = 'Submit survey';
       btn.classList.remove('loading');
