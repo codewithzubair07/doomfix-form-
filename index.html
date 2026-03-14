@@ -314,7 +314,7 @@
 </div>
 
 <script>
-  const SHEET_URL = "https://sheetdb.io/api/v1/d5di01cygmabe";
+  const SHEET_URL = "https://script.google.com/macros/s/AKfycbyziIcblq_Lrqh1Zb_BybWeGU6OpHPLHySTNQS240p19j37G13kFbTomnd2ipJELPpk3A/exec";
   const answers = {};
   const totalQ = 7;
 
@@ -359,16 +359,14 @@
     errMsg.style.display = 'none';
 
     const payload = {
-      data: [{
-        "Timestamp": new Date().toLocaleString(),
-        "Q1: Role": answers['1'] || '',
-        "Q2: Platforms": Array.isArray(answers['2']) ? answers['2'].join(', ') : (answers['2'] || ''),
-        "Q3: Daily Time": answers['3'] || '',
-        "Q4: Waste Time": answers['4'] || '',
-        "Q5: Prefer Career": answers['5'] || '',
-        "Q6: Use AI Tool": answers['6'] || '',
-        "Q7: Feature": answers['7'] || ''
-      }]
+      "Timestamp": new Date().toLocaleString(),
+      "Q1: Role": answers['1'] || '',
+      "Q2: Platforms": Array.isArray(answers['2']) ? answers['2'].join(', ') : (answers['2'] || ''),
+      "Q3: Daily Time": answers['3'] || '',
+      "Q4: Waste Time": answers['4'] || '',
+      "Q5: Prefer Career": answers['5'] || '',
+      "Q6: Use AI Tool": answers['6'] || '',
+      "Q7: Feature": answers['7'] || ''
     };
 
     try {
