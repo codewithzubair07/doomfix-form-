@@ -314,7 +314,7 @@
 </div>
 
 <script>
-  const SHEET_URL = "https://script.google.com/macros/s/AKfycbyCsE4IyQdSd8ygq2tDZNWEWSoy2kkm9CQKxX46AO6T3J3ZDvUBmLVcdmmWH9y-1UBwOw/exec";
+  const SHEET_URL = "https://sheetdb.io/api/v1/d5di01cygmabe";
   const answers = {};
   const totalQ = 7;
 
@@ -359,24 +359,30 @@
     errMsg.style.display = 'none';
 
     const payload = {
-      q1: answers['1'] || '',
-      q2: answers['2'] || [],
-      q3: answers['3'] || '',
-      q4: answers['4'] || '',
-      q5: answers['5'] || '',
-      q6: answers['6'] || '',
-      q7: answers['7'] || ''
+      data: {
+        "Timestamp": new Date().toISOString(),
+        "Q1: Role": answers['1'] || '',
+        "Q2: Platforms": Array.isArray(answers['2']) ? answers['2'].join(', ') : (answers['2'] || ''),
+        "Q3: Daily Time": answers['3'] || '',
+        "Q4: Waste Time": answers['4'] || '',
+        "Q5: Prefer Career": answers['5'] || '',
+        "Q6: Use AI Tool": answers['6'] || '',
+        "Q7: Feature": answers['7'] || ''
+      }
     };
 
     try {
-      await fetch(SHEET_URL, {
+      const res = await fetch(SHEET_URL, {
         method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(payload)
       });
-      document.getElementById('survey-form').style.display = 'none';
-      document.getElementById('thank-you').style.display = 'block';
+      if (res.ok) {
+        document.getElementById('survey-form').style.display = 'none';
+        document.getElementById('thank-you').style.display = 'block';
+      } else {
+        throw new Error('Failed');
+      }
     } catch (err) {
       btn.textContent = 'Submit survey';
       btn.classList.remove('loading');
